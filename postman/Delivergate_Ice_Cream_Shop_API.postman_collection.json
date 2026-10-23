@@ -1,0 +1,479 @@
+{
+	"info": {
+		"_postman_id": "b73d2a6a-91fa-4f9e-991c-8f438a16db8e",
+		"name": "Delivergate Ice Cream Shop API",
+		"description": "RESTful API collection for Delivergate Ice Cream Shop backend with Sanctum Token Authentication and Role-Based Access Control (Owner, Manager, Cashier).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "Login - Owner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set('auth_token', jsonData.data.token);",
+									"    console.log('Token saved to auth_token variable');",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"owner@delivergate.lk\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login - Manager",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set('auth_token', jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"manager@delivergate.lk\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login - Cashier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data.token) {",
+									"    pm.collectionVariables.set('auth_token', jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"cashier@delivergate.lk\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Current Authenticated User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "me"]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "logout"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Inventory Management",
+			"item": [
+				{
+					"name": "Retrieve All Items (with search)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/items?name=Chocolate",
+							"host": ["{{base_url}}"],
+							"path": ["items"],
+							"query": [
+								{
+									"key": "name",
+									"value": "Chocolate",
+									"description": "Optional search by item or flavor name"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Retrieve Single Item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/items/1",
+							"host": ["{{base_url}}"],
+							"path": ["items", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Item (Owner / Manager only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category_id\": 1,\n    \"name\": \"Triple Chocolate Fudge Scoop\",\n    \"flavor\": \"Triple Chocolate\",\n    \"price\": 490.00,\n    \"stock_quantity\": 50,\n    \"unit\": \"scoop\",\n    \"description\": \"Three layers of dark, milk, and white chocolate swirls.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/items",
+							"host": ["{{base_url}}"],
+							"path": ["items"]
+						}
+					}
+				},
+				{
+					"name": "Update Item (All roles)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"price\": 520.00,\n    \"stock_quantity\": 65\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/items/1",
+							"host": ["{{base_url}}"],
+							"path": ["items", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Item (Owner only)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/items/1",
+							"host": ["{{base_url}}"],
+							"path": ["items", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Customer Management",
+			"item": [
+				{
+					"name": "Retrieve All Customers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/customers?search=Perera",
+							"host": ["{{base_url}}"],
+							"path": ["customers"],
+							"query": [
+								{
+									"key": "search",
+									"value": "Perera",
+									"description": "Optional search by name, email, or phone"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Retrieve Single Customer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/customers/1",
+							"host": ["{{base_url}}"],
+							"path": ["customers", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Customer (All roles)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Kasun Mendis\",\n    \"email\": \"kasun.mendis@example.com\",\n    \"phone\": \"+94712398456\",\n    \"address\": \"55 Beach Road, Mount Lavinia\",\n    \"notes\": \"Prefers salted caramel flavors\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/customers",
+							"host": ["{{base_url}}"],
+							"path": ["customers"]
+						}
+					}
+				},
+				{
+					"name": "Update Customer (All roles)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"+94719998877\",\n    \"notes\": \"Updated loyalty club member\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/customers/1",
+							"host": ["{{base_url}}"],
+							"path": ["customers", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Customer (Owner only)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/customers/1",
+							"host": ["{{base_url}}"],
+							"path": ["customers", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Categories",
+			"item": [
+				{
+					"name": "Retrieve All Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/categories",
+							"host": ["{{base_url}}"],
+							"path": ["categories"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

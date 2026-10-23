@@ -1,0 +1,60 @@
+erDiagram
+    USERS {
+        bigint id PK "Auto Increment"
+        string name "User Full Name"
+        string email UK "Unique Email Address"
+        string password "Hashed Password (bcrypt)"
+        enum role "owner | manager | cashier"
+        string remember_token "Nullable"
+        timestamp created_at "Created Timestamp"
+        timestamp updated_at "Updated Timestamp"
+    }
+
+    CATEGORIES {
+        bigint id PK "Auto Increment"
+        string name UK "Flavor / Category Name"
+        string slug UK "URL Friendly Slug"
+        text description "Flavor Notes / Description"
+        timestamp created_at "Created Timestamp"
+        timestamp updated_at "Updated Timestamp"
+    }
+
+    ITEMS {
+        bigint id PK "Auto Increment"
+        bigint category_id FK "References categories.id (NULL on delete)"
+        string name "Item Name (Indexed for fast search)"
+        string flavor "Specific Flavor Variant"
+        decimal price "Price (10, 2)"
+        int stock_quantity "Available Stock Count"
+        string unit "Serving Unit (scoop, tub, liter)"
+        text description "Nullable Detailed Description"
+        timestamp created_at "Created Timestamp"
+        timestamp updated_at "Updated Timestamp"
+    }
+
+    CUSTOMERS {
+        bigint id PK "Auto Increment"
+        string name "Customer Full Name"
+        string email UK "Unique Customer Email (Nullable)"
+        string phone "Contact Number (Nullable)"
+        text address "Customer Physical Address (Nullable)"
+        text notes "Preferences / Dietary Notes (Nullable)"
+        timestamp created_at "Created Timestamp"
+        timestamp updated_at "Updated Timestamp"
+    }
+
+    PERSONAL_ACCESS_TOKENS {
+        bigint id PK "Auto Increment"
+        string tokenable_type "Model Type (App\\Models\\User)"
+        bigint tokenable_id "User ID"
+        string name "Token Name"
+        string token UK "Hashed SHA-256 Token"
+        text abilities "Token Abilities"
+        timestamp last_used_at "Last Usage Timestamp"
+        timestamp expires_at "Expiration Timestamp"
+        timestamp created_at "Created Timestamp"
+        timestamp updated_at "Updated Timestamp"
+    }
+
+    USERS ||--o{ PERSONAL_ACCESS_TOKENS : "has"
+    CATEGORIES ||--o{ ITEMS : "has"
