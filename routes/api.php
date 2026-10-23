@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\ItemController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +24,14 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     // Inventory Items
     Route::apiResource('items', ItemController::class);
+
+    // Customer Records
+    Route::apiResource('customers', CustomerController::class);
+
+    // Flavor Categories helper endpoint
+    Route::get('categories', function () {
+        return response()->json([
+            'data' => Category::all(['id', 'name', 'slug', 'description']),
+        ]);
+    });
 });
