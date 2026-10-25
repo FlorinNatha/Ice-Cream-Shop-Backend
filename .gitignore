@@ -1,8 +1,6 @@
 *.log
 .DS_Store
-.env
 .env.backup
-.env.production
 .phpactor.json
 .phpunit.result.cache
 /.codex
@@ -10,7 +8,6 @@
 /.idea
 /.nova
 /.phpunit.cache
-/.vscode
 /.zed
 /.agents
 /boost.json
@@ -34,3 +31,4 @@ Thumbs.db
 *.user
 *.suo
 .vs/
+config.bat
