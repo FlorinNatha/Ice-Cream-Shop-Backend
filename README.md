@@ -239,9 +239,53 @@ A ready-to-import Postman Collection is located in:
 
 ---
 
-## 📂 10. Repository Structure
+## 💻 10. Bonus: C# WPF Desktop Application
+
+An optional modern desktop application built using **C#** and **WPF** (.NET 8+) is provided in [`Delivergate.Desktop/`](Delivergate.Desktop/). It consumes the Laravel REST APIs in real time with token authentication and enforces role-based permissions dynamically on the client UI.
+
+### **Desktop App Features:**
+1. **Login Screen**:
+   - Authenticates against the local Laravel backend (`POST /api/auth/login`).
+   - Displays validation errors and authentication error notifications.
+   - Quick sign-in buttons for pre-seeded test roles (**Owner**, **Manager**, **Cashier**).
+   - Configurable API endpoint (defaults to `http://127.0.0.1:8000/api`).
+2. **Inventory Management Screen**:
+   - Displays inventory items in a styled DataGrid with pricing, unit, and stock count.
+   - Real-time search filter by flavor or item name (`GET /api/items?search=...`).
+   - Category / Flavor group filter dropdown.
+   - Add Item dialog (*Allowed for Owner & Manager; disabled for Cashier*).
+   - Edit Item dialog (*Allowed for Owner, Manager, and Cashier*).
+   - Delete Item action (*Allowed for Owner only; displays 403 Forbidden alert for others*).
+3. **Customer Management Screen**:
+   - Displays customer contact records and dietary preferences in a DataGrid.
+   - Real-time keyword search filter across name, email, and phone (`GET /api/customers?search=...`).
+   - Add & Edit Customer dialogs (*Allowed for Owner, Manager, and Cashier*).
+   - Delete Customer action (*Allowed for Owner only; displays 403 Forbidden alert for others*).
+4. **Role Badges & Permissions Summary Banner**:
+   - Prominently displays logged-in user profile, role badge (Owner: Green, Manager: Blue, Cashier: Amber), and active permission capabilities.
+
+### **How to Run the WPF Desktop Application:**
+Make sure the Laravel backend server is running (`php artisan serve` at `http://127.0.0.1:8000`), then launch the desktop app from the terminal:
+
+```bash
+dotnet run --project Delivergate.Desktop
+```
+
+Alternatively, open [`Delivergate.Desktop/Delivergate.Desktop.sln`](Delivergate.Desktop/Delivergate.Desktop.sln) in **Visual Studio 2022** and press **F5**.
+
+---
+
+## 📂 11. Repository Structure
 
 ```text
+├── Delivergate.Desktop/       # Bonus C# WPF Desktop Application (.NET 8+)
+│   ├── Dialogs/               # ItemEditDialog, CustomerEditDialog
+│   ├── Models/                # ApiModels.cs (UserDto, ItemDto, CustomerDto, etc.)
+│   ├── Services/              # ApiService.cs, AuthSession.cs (RBAC)
+│   ├── LoginWindow.xaml       # Modern login window with role presets
+│   ├── MainWindow.xaml        # Inventory & customer management dashboard
+│   ├── Delivergate.Desktop.csproj
+│   └── Delivergate.Desktop.sln
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/Api/   # AuthController, ItemController, CustomerController
@@ -274,4 +318,5 @@ A ready-to-import Postman Collection is located in:
 - [x] Automated test suite (16 tests, 100% passing)
 - [x] Postman API collection
 - [x] Entity-Relationship (ER) Diagram (source & interactive visualizer)
+- [x] Bonus C# WPF Desktop Application (.NET 8)
 - [x] Detailed `README.md`
