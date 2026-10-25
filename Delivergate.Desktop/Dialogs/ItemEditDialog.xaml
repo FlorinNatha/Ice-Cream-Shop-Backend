@@ -1,0 +1,76 @@
+<Window x:Class="Delivergate.Desktop.Dialogs.ItemEditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Item Details" Height="520" Width="480"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F8FAFC" FontFamily="Segoe UI">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock x:Name="DialogTitleText" Text="Add New Inventory Item" FontSize="20" FontWeight="Bold" Foreground="#0F172A"/>
+            <TextBlock Text="Enter ice cream flavor details, pricing, and stock count." FontSize="13" Foreground="#64748B" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- Error Banner -->
+        <Border Grid.Row="1" x:Name="ErrorBanner" Background="#FEF2F2" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,0,14" Visibility="Collapsed">
+            <TextBlock x:Name="ErrorText" Text="" TextWrapping="Wrap" Foreground="#991B1B" FontSize="12"/>
+        </Border>
+
+        <!-- Form Fields -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,8,0">
+                <TextBlock Text="Item Name *" FontWeight="SemiBold" Foreground="#334155" FontSize="13" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtName" Padding="8,6" FontSize="13" BorderBrush="#CBD5E1" Margin="0,0,0,12"/>
+
+                <TextBlock Text="Category / Flavor Group" FontWeight="SemiBold" Foreground="#334155" FontSize="13" Margin="0,0,0,4"/>
+                <ComboBox x:Name="CmbCategory" Padding="8,6" FontSize="13" Margin="0,0,0,12" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+
+                <TextBlock Text="Flavor Variant *" FontWeight="SemiBold" Foreground="#334155" FontSize="13" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtFlavor" Padding="8,6" FontSize="13" BorderBrush="#CBD5E1" Margin="0,0,0,12"/>
+
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Price (LKR) *" FontWeight="SemiBold" Foreground="#334155" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBox x:Name="TxtPrice" Padding="8,6" FontSize="13" BorderBrush="#CBD5E1"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Stock Quantity *" FontWeight="SemiBold" Foreground="#334155" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBox x:Name="TxtStock" Padding="8,6" FontSize="13" BorderBrush="#CBD5E1"/>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock Text="Unit" FontWeight="SemiBold" Foreground="#334155" FontSize="13" Margin="0,0,0,4"/>
+                <ComboBox x:Name="CmbUnit" Padding="8,6" FontSize="13" Margin="0,0,0,12">
+                    <ComboBoxItem Content="scoop" IsSelected="True"/>
+                    <ComboBoxItem Content="tub"/>
+                    <ComboBoxItem Content="liter"/>
+                    <ComboBoxItem Content="cup"/>
+                    <ComboBoxItem Content="cone"/>
+                </ComboBox>
+
+                <TextBlock Text="Description" FontWeight="SemiBold" Foreground="#334155" FontSize="13" Margin="0,0,0,4"/>
+                <TextBox x:Name="TxtDescription" Padding="8,6" FontSize="13" Height="65" TextWrapping="Wrap" AcceptsReturn="True" BorderBrush="#CBD5E1" Margin="0,0,0,12"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Cancel" Width="90" Height="34" Margin="0,0,10,0" Background="#E2E8F0" Foreground="#334155" BorderThickness="0" FontWeight="SemiBold" Click="CancelButton_Click" Cursor="Hand"/>
+            <Button x:Name="BtnSave" Content="Save Item" Width="110" Height="34" Background="#2563EB" Foreground="White" BorderThickness="0" FontWeight="SemiBold" Click="SaveButton_Click" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>
