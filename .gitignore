@@ -27,3 +27,10 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# .NET / WPF build artifacts
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/
